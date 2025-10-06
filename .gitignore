@@ -1,0 +1,18 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# PDFs and Docs
+*.pdf
+*.docx
+/images
+
+# example model files
+/inputs/*
