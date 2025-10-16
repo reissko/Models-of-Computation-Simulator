@@ -1,11 +1,13 @@
 import json
+import sys
 
 class ModelLoader:
 
-  path = "inputs/"
+  path = "../inputs/"
   
   def __init__(self, filename):
     self.filepath = self.path + filename
+    
     
     
   """
