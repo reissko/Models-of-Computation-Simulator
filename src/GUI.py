@@ -4,6 +4,10 @@ from tkinter import Label
 from tkinter import Button
 from tkinter import filedialog
 from tkinter import Entry
+from tkinter import StringVar
+from tkinter import OptionMenu
+
+from Utils import *
 
 class GUI:
   
@@ -53,17 +57,29 @@ class GUI:
     # pack the frame to the root
     self.frame.pack(expand=True, fill="both")
   def loadAndTestScreen(self):
+    model = None
+    # destroy previous frame if it exists
     if self.frame != None:
       self.frame.destroy()
     self.frame = ttk.Frame(self.root, padding="3 3 12 12")  
+    accept_reject_warning_label = Label(self.frame, text="", font=("Arial", 16), pady=10, fg="red")
+    accept_reject_warning_label.place(relx=0.5, rely=0.20, anchor="center")
     # file name label
     filename_label = Label(self.frame, text="No file selected", font=("Arial", 16), pady=10)
     filename_label.pack()
     # user input box
     user_input_box = Entry(self.frame, font=("Arial", 14), width=17, justify="center")
     def getUserInput(event=None):
+      if model is None:
+        accept_reject_warning_label.config(text="WARNING: Please select a model file to test.")
+        return
       user_input = user_input_box.get()
-      print(user_input) # for debugging
+      accept_reject_warning_label.config(text=f"")
+      # print(user_input) # for debugging
+      if model.accepts(user_input):
+        accept_reject_warning_label.config(text=f"{user_input} is accepted.", fg="green")
+      else:
+        accept_reject_warning_label.config(text=f"{user_input} is rejected.", fg="red")
       user_input_box.delete(0, "end") # clears the input box after submission
     user_input_box.bind("<Return>", getUserInput) # allows the user to press enter to submit
     user_input_box.place(relx=0.5, rely=0.35, anchor="center")
@@ -73,10 +89,23 @@ class GUI:
     submit_button.place(relx=0.5, rely=0.5, anchor="center")
     # allow the user to choose a file to load
     def selectFile():
-      file_path = filedialog.askopenfilename()
-      file_path = file_path.split("/")[-1].strip(".json")
-      # update the label to show the file name
-      filename_label.config(text=file_path)
+      nonlocal model # when we refer to 'model' we do not mean a local variable 'model'
+      filepath = filedialog.askopenfilename()
+      filename = filepath.split("/")[-1].strip(".json")
+      # create model object
+      model_loader = ModelLoader(filepath)
+      if model_loader.validModel():
+        data = model_loader.readJSON()
+        if data:
+          model = createModel(data)
+          # update the label to show the file name
+          filename_label.config(text=f"{filename} accepts the alphabet: {model.sigma}")
+          accept_reject_warning_label.config(text="")
+        else:
+          accept_reject_warning_label.config(text="WARNING: This file contains an invalid formal definition.")
+      else:
+        accept_reject_warning_label.config(text="WARNING: Please select a valid model file.")
+      
     select_file_button = Button(self.frame, text="Select File", command=selectFile)
     menu_button = Button(self.frame, text="Main Menu", command=self.mainMenuScreen)
     self.applyButtonStyle(select_file_button)
@@ -84,11 +113,85 @@ class GUI:
     menu_button.place(relx=0.8, rely=0.75, anchor="center")
     select_file_button.place(relx=0.2, rely=0.75, anchor="center")
     self.frame.pack(expand=True, fill="both")
+    
+    
+    
   def createModelScreen(self):
     if self.frame != None:
       self.frame.destroy()
-    print("create model screen")
- 
+    self.frame = ttk.Frame(self.root, padding="3 3 12 12")
+    # have the user fill out a form to create a model
+    # 1) Model Type
+    model_type_label = Label(self.frame, text="Model Type: ", font=("Arial", 16), pady=10, padx=10).grid(row=0, column=0)
+    model_options = ["DFA", "NFA", "PDA", "TM"] # model options
+    model_type_var = StringVar(self.frame) # variable to hold the model type
+    model_type_var.set(model_options[0]) # default
+    model_type_menu = OptionMenu(self.frame, model_type_var, *model_options)
+    model_type_menu.grid(row=0, column=1, sticky="w")
+    # 2) Q
+    Q_label = Label(self.frame, text="Q: ", font=("Arial", 16), pady=10, padx=10).grid(row=1, column=0)
+    Q_input = Entry(self.frame, font=("Arial", 12), width=20, justify="center")
+    Q_input.grid(row=1, column=1)
+    # 3) Sigma
+    sigma_label = Label(self.frame, text="Sigma: ", font=("Arial", 16), pady=10, padx=10).grid(row=2, column=0)
+    sigma_input = Entry(self.frame, font=("Arial", 12), width=20, justify="center")
+    sigma_input.grid(row=2, column=1)
+    # 4) Delta
+    delta_label = Label(self.frame, text="Delta: ", font=("Arial", 16), pady=10, padx=10).grid(row=3, column=0)
+    delta_input = Entry(self.frame, font=("Arial", 12), width=20, justify="center")
+    delta_input.grid(row=3, column=1)
+    # 5) q0
+    q0_label = Label(self.frame, text="q0: ", font=("Arial", 16), pady=10, padx=10).grid(row=4, column=0)
+    q0_input = Entry(self.frame, font=("Arial", 12), width=20, justify="center")
+    q0_input.grid(row=4, column=1)
+    # 6) F
+    F_label = Label(self.frame, text="F: ", font=("Arial", 16), pady=10, padx=10).grid(row=5, column=0)
+    F_input = Entry(self.frame, font=("Arial", 12), width=20, justify="center")
+    F_input.grid(row=5, column=1)
+    # 7) Submit
+    warning_label = Label(self.frame, text="", font=("Arial", 16), padx=10, fg="red")
+    warning_label.place(relx=0.75, rely=0.5, anchor="center")
+    def handleModelCreation(event=None):
+      model_type = model_type_var.get()
+      Q = Q_input.get()
+      sigma = sigma_input.get()
+      delta = delta_input.get()
+      q0 = q0_input.get()
+      F = F_input.get()
+      if not all([model_type, Q, sigma, delta, q0, F]):
+        warning_label.config(text="WARNING: Please fill out all fields.")
+        return
+      # hide the warning label if the correct inputs are given
+      warning_label.config(text="")
+      # parse the model components into a dictionary
+      model_json = parseModelComponents(model_type, Q, sigma, delta, q0, F)
+      # create the model file and save it to the inputs directory
+      writeModelToFile(model_json, "my_model.json")
+      
+    submit_button = Button(self.frame, text="Create Model", command=handleModelCreation)
+    self.applyButtonStyle(submit_button)
+    submit_button.grid(row=6, column=0, columnspan=2, pady=15)  
+    
+    # help button
+    help_button = Button(self.frame, text="Help", command=self.modelCreationHelpScreen)
+    self.applyButtonStyle(help_button)
+    help_button.place(relx=0.75, rely=0.3, anchor="center")
+    # main menu button
+    menu_button = Button(self.frame, text="Main Menu", command=self.mainMenuScreen)
+    self.applyButtonStyle(menu_button)
+    menu_button.place(relx=0.75, rely=0.7, anchor="center")
+    
+    self.frame.pack(expand=True, fill="both")
+    
+    # bind all inputs to be entered with <Return> key
+    Q_input.bind("<Return>", handleModelCreation)
+    sigma_input.bind("<Return>", handleModelCreation)
+    delta_input.bind("<Return>", handleModelCreation)
+    q0_input.bind("<Return>", handleModelCreation)
+    F_input.bind("<Return>", handleModelCreation)
+    
+  def modelCreationHelpScreen(self):
+    print("Help Screen")
   ########################################
   # Helper Functions
   ########################################

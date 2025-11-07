@@ -1,12 +1,11 @@
 import json
-import sys
 
 class ModelLoader:
 
-  path = "../inputs/"
+  dynamic_path = ""
   
-  def __init__(self, filename):
-    self.filepath = self.path + filename
+  def __init__(self, filepath: str):
+    self.dynamic_filepath = filepath
     
     
     
@@ -16,7 +15,7 @@ class ModelLoader:
   """
   def readJSON(self):
     try:
-      with open(self.filepath) as f:
+      with open(self.dynamic_filepath) as f:
         return json.load(f)
     except FileNotFoundError:
       print("File not found")
@@ -26,8 +25,8 @@ class ModelLoader:
   """  
   def validModel(self):
     try:
-      with open(self.filepath) as f:
+      with open(self.dynamic_filepath) as f:
         return True
     except FileNotFoundError:
-      print(self.filepath.replace("inputs/", "") + " does not exist. Please check the spelling and try again. Make sure to include the .json extension.")
+      print("File not found")
       return False

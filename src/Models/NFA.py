@@ -1,4 +1,11 @@
 class NFA():
+  
+  Q: list[str]
+  sigma: list[str]
+  delta: dict
+  q0: str
+  F: list[str]
+  
   """
   Formal Definition of an NFA:
   (Q, Σ, δ, q0, F)
