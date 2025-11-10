@@ -37,16 +37,31 @@ class NFA():
     # start in the initial state
     current_states = [self.q0]       # note we make current state a list to account for non-determinism
     
+    # follow epsilon transitions if there are any
+    for state in current_states:
+      if "epsilon" in self.delta[state]:
+        current_states += self.delta[state]["epsilon"]
+    
     # for each character in the input_string follow the model's transitions
     for char in input_string:
       if char not in self.sigma: # if the character isn't in the alphabet the input is invalid (string is not accepted regardless)
         return False
       result_states = []
+      # follow epsilon transitions if there are any
+      for state in current_states:
+        if "epsilon" in self.delta[state]:
+          current_states += self.delta[state]["epsilon"]
       for state in current_states:
         if char in self.delta[state]:
           # follow transitions make current state all the possible next states
           result_states += self.delta[state][char]
+      
       current_states = result_states
+    
+    # follow epsilon transitions if there are any
+    for state in current_states:
+      if "epsilon" in self.delta[state]:
+        current_states += self.delta[state]["epsilon"]
     
     for state in current_states:
       # if any of the current states we're in are apart of F (accepting states) then the string is accepted.

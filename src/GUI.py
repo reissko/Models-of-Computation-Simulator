@@ -191,7 +191,21 @@ class GUI:
     F_input.bind("<Return>", handleModelCreation)
     
   def modelCreationHelpScreen(self):
-    print("Help Screen")
+    if self.frame != None:
+      self.frame.destroy()
+    self.frame = ttk.Frame(self.root, padding="3 3 12 12")
+    help_explanation_label = Label(self.frame, text="Just write the model out in an actual\nJSON file it's so much easier.", font=("Arial", 16), pady=10)
+    help_explanation_label.place(relx=0.5, rely=0.5, anchor="center")
+    
+    back_button = Button(self.frame, text="Back", command=self.createModelScreen)
+    self.applyButtonStyle(back_button)
+    back_button.place(relx=0.5, rely=0.8, anchor="center")
+    
+    self.frame.pack(expand=True, fill="both")
+    
+    
+    
+    
   ########################################
   # Helper Functions
   ########################################
