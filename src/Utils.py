@@ -1,8 +1,8 @@
 # imports
 import os
 import json
-from ModelLoader import ModelLoader
-from Models.NFA import NFA
+from .ModelLoader import ModelLoader
+from .Models.NFA import NFA
 
 
 """

@@ -6,8 +6,7 @@ from tkinter import filedialog
 from tkinter import Entry
 from tkinter import StringVar
 from tkinter import OptionMenu
-
-from Utils import *
+from .Utils import *
 
 class GUI:
   
@@ -21,7 +20,13 @@ class GUI:
   BUTTON_FG = "white"         #
   BUTTON_BG = "#1c1c1c"     #
   #############################
-  
+  """
+  Method: __init__
+  Description:
+    - Constructor for the root element of the GUI. Creates a 
+      tkinter root element and loads the main menu screen and 
+      components.
+  """
   def __init__(self):
     self.root = Tk()
     self.root.title("Model of Computation Validator")
@@ -30,6 +35,12 @@ class GUI:
     
     # load main menu
     self.mainMenuScreen()
+  
+  """
+  Method: mainMenuScreen
+  Description:
+    - Renders and loads the main menu screen and components.
+  """
   def mainMenuScreen(self):
     # destroy previous frame if it exists
     if self.frame != None:
@@ -56,6 +67,13 @@ class GUI:
     
     # pack the frame to the root
     self.frame.pack(expand=True, fill="both")
+  
+  """
+  Method: loadAndTestScreen
+  Description:
+    - Renders and displays the screen and components for the project's
+      load and test module.
+  """
   def loadAndTestScreen(self):
     model = None
     # destroy previous frame if it exists
@@ -113,9 +131,13 @@ class GUI:
     menu_button.place(relx=0.8, rely=0.75, anchor="center")
     select_file_button.place(relx=0.2, rely=0.75, anchor="center")
     self.frame.pack(expand=True, fill="both")
-    
-    
-    
+  
+  """
+  Method: createModelScreen
+  Description:
+    - Renders and displays the screen and components for the project's
+      model creation module.
+  """
   def createModelScreen(self):
     if self.frame != None:
       self.frame.destroy()
@@ -188,8 +210,13 @@ class GUI:
     sigma_input.bind("<Return>", handleModelCreation)
     delta_input.bind("<Return>", handleModelCreation)
     q0_input.bind("<Return>", handleModelCreation)
-    F_input.bind("<Return>", handleModelCreation)
-    
+    F_input.bind("<Return>", handleModelCreation)  
+  
+  """
+  Method: modelCreationHelpScreen
+  Description: 
+    - Displays a help screen with instructions for the model creation module.
+  """
   def modelCreationHelpScreen(self):
     if self.frame != None:
       self.frame.destroy()
@@ -202,12 +229,9 @@ class GUI:
     back_button.place(relx=0.5, rely=0.8, anchor="center")
     
     self.frame.pack(expand=True, fill="both")
-    
-    
-    
-    
+   
   ########################################
-  # Helper Functions
+  # Helper Functions                     #
   ########################################
   @staticmethod
   def applyButtonStyle(button):

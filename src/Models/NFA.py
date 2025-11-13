@@ -24,24 +24,20 @@ class NFA():
     self.F = F
     
   """
-  Method: accepts()
-  
+  Method: accepts
+  Description:
+    - Takes an input string (given by the user) and checks if the model
+      accepts or rejects the string.
   Argument(s):
     - input_string: a string being checked to see if it is accepted by the model
-  
   Returns:
     - True: if the string is accepted by the NFA
     - False: if the string is not accepted by the NFA
   """
   def accepts(self, input_string: str) -> bool:
     # start in the initial state
-    current_states = [self.q0]       # note we make current state a list to account for non-determinism
-    
-    # follow epsilon transitions if there are any
-    for state in current_states:
-      if "epsilon" in self.delta[state]:
-        current_states += self.delta[state]["epsilon"]
-    
+    current_states = [self.q0] # note: current state is a list because of non-determinism.
+        
     # for each character in the input_string follow the model's transitions
     for char in input_string:
       if char not in self.sigma: # if the character isn't in the alphabet the input is invalid (string is not accepted regardless)
@@ -58,7 +54,8 @@ class NFA():
       
       current_states = result_states
     
-    # follow epsilon transitions if there are any
+    # after processing input_string, add any resulting states from epsilon transitions
+    # to current_states
     for state in current_states:
       if "epsilon" in self.delta[state]:
         current_states += self.delta[state]["epsilon"]
