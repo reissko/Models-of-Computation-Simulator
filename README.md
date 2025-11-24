@@ -64,7 +64,7 @@ python3 --version
 ### 3. Run the simulator
 
 ```bash
-python gui_main_menu.py
+python main.py
 ```
 
 ---
@@ -109,19 +109,11 @@ converts it to valid JSON.
 - **CREATE a model** --- Opens the detailed delta-format help window
 - **QUIT** --- Exits with confirmation
 
-### Scrollable Help Window
-
-Shows detailed, formatted instructions for how to write the `delta`
-field, with scrolling and wrapping.
-
 ---
 
 ## Future Roadmap
 
 - [ ] Full model creation UI
-- [ ] Integrated simulator test mode
-- [ ] PDA and TM visualization
-- [ ] Real-time input validation
 - [ ] Recent model tracking
 
 ---
