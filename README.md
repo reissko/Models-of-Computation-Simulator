@@ -1,4 +1,4 @@
-# 🧮 Models of Computation Simulator
+# Models of Computation Simulator
 
 A Python-based interactive simulator for exploring **formal models of
 computation** --- including **DFAs**, **NFAs**, **PDAs**, and **Turing
@@ -11,7 +11,7 @@ models using JSON definitions and visual testing interfaces.
 
 ---
 
-## 🚀 Features
+## Features
 
 - **Graphical Menu System (Tkinter)**
   - Choose to **Create**, **Test**, or **Quit** the application.
@@ -28,7 +28,7 @@ models using JSON definitions and visual testing interfaces.
 
 ---
 
-## 🧱 Project Structure
+## Project Structure
 
     Models-of-Computation-Simulator/
     ├── gui_main_menu.py         # Main Tkinter menu (Create, Test, Quit)
@@ -41,7 +41,7 @@ models using JSON definitions and visual testing interfaces.
 
 ---
 
-## ⚙️ Installation
+## Installation
 
 ### 1. Clone the repository
 
@@ -69,7 +69,7 @@ python gui_main_menu.py
 
 ---
 
-## 🧩 JSON Model Format
+## JSON Model Format
 
 Each model is stored in a JSON file like the following:
 
@@ -101,7 +101,7 @@ converts it to valid JSON.
 
 ---
 
-## 🪶 GUI Components
+## GUI Components
 
 ### Main Menu
 
@@ -116,7 +116,7 @@ field, with scrolling and wrapping.
 
 ---
 
-## 🧭 Future Roadmap
+## Future Roadmap
 
 - [ ] Full model creation UI
 - [ ] Integrated simulator test mode
@@ -126,7 +126,7 @@ field, with scrolling and wrapping.
 
 ---
 
-## 🧑‍💻 Contributing
+## Contributing
 
 Pull requests are welcome!\
 Steps: 1. Fork the repo\
@@ -136,13 +136,13 @@ Steps: 1. Fork the repo\
 
 ---
 
-## 📜 License
+## License
 
 MIT License.
 
 ---
 
-## 🎓 Author
+## Author
 
 **Reiss Oliveros**\
 University of Portland --- Models of Computation Project
