@@ -30,14 +30,16 @@ models using JSON definitions and visual testing interfaces.
 
 ## Project Structure
 
-    Models-of-Computation-Simulator/
-    ├── gui_main_menu.py         # Main Tkinter menu (Create, Test, Quit)
-    ├── utils_parse_relaxed_json.py  # Parser for user input → valid JSON model
-    ├── Model.py                 # Abstract base class for computational models
-    ├── DFA.py, NFA.py, PDA.py, TM.py  # Individual model implementations
-    ├── utils.py                 # Shared helper functions
-    ├── data/                    # Example model files (.json)
-    └── README.md                # Project documentation (this file)
+    project/
+    ├── src/
+    │   ├── Models/
+    │   │   └── NFA.py
+    │   ├── Tests/
+    │   │   └── ModelTests.py
+    │   ├── GUI.py
+    │   ├── ModelLoader.py
+    │   └── Utils.py
+    └── main.py
 
 ---
 
