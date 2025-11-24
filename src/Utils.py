@@ -10,8 +10,6 @@ from .Models.NFA import NFA
     - formal_definition: string = An array representing the formal definition of a model of computation
   Returns:
     - model_json: dict = A dictionary representation of the model
-    
-  {'q0': {'a': ['q0', 'q1'], 'b': ['q0'], 'epsilon': []}, 'q1': {'a': ['q2'], 'b': [], 'epsilon': []}, 'q2': {'a': [], 'b': [], 'epsilon': []}}
 """
 def parseModelComponents(model_type: str, Q: str, sigma: str, delta: str, q0: str, F: str) -> dict:
   # variables for creating model parts
